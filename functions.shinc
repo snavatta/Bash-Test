@@ -1,0 +1,65 @@
+#!/bin/bash
+
+export DEFAULT_LOG="kreatekno.log"
+
+#Escribir el log
+write_log()
+{
+	echo "$(date "+%d/%m/%y;%R");$(hostname);$1" >> $DEFAULT_LOG
+}
+
+#Leer log segun fecha
+read_log_by_date() 
+{
+	echo "$(cat $DEFAULT_LOG | grep $1)"
+}
+
+
+#Verifica que la entrada sea solo texto
+onlytext_verif()
+{
+	if [ -z "$1" ]; then
+		echo "El campo esta vacio vuelva a introducir"
+		sleep 2
+		return 1
+	elif echo "$1" | egrep -xq "[a-zA-Z ]+"; then
+		return 0
+	else
+		echo "El campo permite unicamente letras"	
+		sleep 2	
+		return 1
+	fi
+}
+
+#Verifica que la entrada sea solo numerica
+onlyint_verif()
+{
+	if [ -z "$1" ]; then
+		echo "El campo esta vacio vuelva a introducir"
+		sleep 2
+		return 1
+	elif echo "$1" | egrep -xq "[0-9]+"; then
+		return 0
+	else
+		echo "El campo permite unicamente numeros"	
+		sleep 2	
+		return 1
+	fi
+}
+
+
+#Verifica la cedula de identidad
+ci_verif()
+{
+	if [ -z "$1" ]; then
+		echo "El campo esta vacio vuelva a introducir"
+		sleep 2
+		return 1
+	elif echo "$1" | egrep -xq "[1-9][0-9]{7}"; then
+		return 0
+	else
+		echo "Ingresar solamente numeros sin guiones"
+		sleep 2
+		return 1
+	fi
+}
